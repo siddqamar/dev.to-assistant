@@ -231,13 +231,78 @@ with gr.Blocks(title="Dev.to Posts Analyzer") as demo:
         outputs=[download_file]
     )
 
+from fastapi.middleware.cors import CORSMiddleware
+
 # --- FastAPI Integration ---
 
 app = FastAPI()
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # For development, allow all
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 def read_root():
     return {"message": "Dev.to Analyzer API is running. Go to /gradio for the UI."}
+
+@app.get("/api/analyze")
+async def analyze_endpoint(tag: str = "python", pages: int = 3):
+    scanner = DevToScanner(tag=tag)
+    analyzer = PostAnalyzer()
+    
+    # 1. Scan (Gradio progress not used here, passing dummy lambda)
+    raw_posts = scanner.fetch_posts(pages=pages, progress=lambda x, desc="": None)
+    
+    if not raw_posts:
+        return []
+
+    # 2. Analyze (in batches of 5)
+    analyzed_data = []
+    batch_size = 5
+    # Limit total posts for API to keep it responsive
+    total_posts = min(len(raw_posts), 15) 
+    raw_posts = raw_posts[:total_posts]
+    
+    for i in range(0, total_posts, batch_size):
+        batch = raw_posts[i:i+batch_size]
+        
+        # Enrich batch with full content
+        for post in batch:
+            post['body_markdown'] = scanner.get_post_details(post['id'])
+            await asyncio.sleep(0.1)
+            
+        batch_results = analyzer.analyze_batch(batch)
+        analyzed_data.extend(batch_results)
+        await asyncio.sleep(0.5)
+        
+    # 3. Compile for Frontend
+    analysis_map = {item['id']: item for item in analyzed_data if 'id' in item}
+    
+    frontend_data = []
+    for post in raw_posts:
+        p_id = post['id']
+        analysis = analysis_map.get(p_id, {})
+        
+        frontend_data.append({
+            "id": p_id,
+            "author": post['user']['name'],
+            "avatar": post['user']['profile_image_90'],
+            "date": post['published_at'].split("T")[0],
+            "topic": post['title'],
+            "hook": analysis.get("hook", "N/A"),
+            "problem": analysis.get("pain_point", "N/A"),
+            "solution": analysis.get("solution", "N/A"),
+            "reacts": post['public_reactions_count'],
+            "comments": post['comments_count'],
+            "url": post['url']
+        })
+        
+    return frontend_data
 
 # Mount Gradio app
 app = gr.mount_gradio_app(app, demo, path="/gradio")
