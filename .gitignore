@@ -27,17 +27,17 @@ wheels/
 .installed.cfg
 *.egg
 
-# Frontend
-frontend/node_modules/
-frontend/.next/
-frontend/.npmrc
-frontend/.snowflake/
-frontend/.v0-trash/
-frontend/.vercel/
-frontend/next.user-config.*
-frontend/__v0_runtime_loader.js
-frontend/__v0_devtools.tsx
-frontend/__v0_jsx-dev-runtime.ts
+# UI (Frontend)
+UI/node_modules/
+UI/.next/
+UI/.npmrc
+UI/.snowflake/
+UI/.v0-trash/
+UI/.vercel/
+UI/next.user-config.*
+UI/__v0_runtime_loader.js
+UI/__v0_devtools.tsx
+UI/__v0_jsx-dev-runtime.ts
 
 # Logs
 *.log
