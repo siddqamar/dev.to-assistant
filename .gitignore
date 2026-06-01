@@ -10,6 +10,7 @@ venv/
 *.pyo
 *.pyd
 .Python
+.python-version
 env/
 build/
 develop-eggs/
@@ -38,6 +39,7 @@ UI/next.user-config.*
 UI/__v0_runtime_loader.js
 UI/__v0_devtools.tsx
 UI/__v0_jsx-dev-runtime.ts
+UI/package-lock.json
 
 # Logs
 *.log

@@ -9,9 +9,10 @@ export interface PostData {
   avatar: string
   date: string
   topic: string
-  hook: string
+  tech_stack: string
   problem: string
   solution: string
+  github_url: string
   reacts: number
   comments: number
   url: string
@@ -24,15 +25,15 @@ interface ResultsSectionProps {
 export function ResultsSection({ data }: ResultsSectionProps) {
   const handleCopyData = () => {
     const text = data.map(d => 
-      `${d.author} - ${d.topic}\nHook: ${d.hook}\nProblem: ${d.problem}\nSolution: ${d.solution}\n`
+      `${d.author} - ${d.topic}\nTech Stack: ${d.tech_stack}\nProblem: ${d.problem}\nSolution: ${d.solution}\nGitHub URL: ${d.github_url}\n`
     ).join('\n---\n')
     navigator.clipboard.writeText(text)
   }
 
   const handleExportCSV = () => {
-    const headers = ['Author', 'Date', 'Topic', 'Hook', 'Problem', 'Solution', 'Reacts', 'Comments']
+    const headers = ['Author', 'Date', 'Topic', 'Tech Stack', 'Problem', 'Solution', 'GitHub URL', 'Reacts', 'Comments', 'URL']
     const rows = data.map(d => [
-      d.author, d.date, d.topic, d.hook, d.problem, d.solution, d.reacts.toString(), d.comments.toString()
+      d.author, d.date, d.topic, d.tech_stack, d.problem, d.solution, d.github_url, d.reacts.toString(), d.comments.toString(), d.url
     ])
     const csv = [headers.join(','), ...rows.map(r => r.map(c => `"${c}"`).join(','))].join('\n')
     const blob = new Blob([csv], { type: 'text/csv' })
