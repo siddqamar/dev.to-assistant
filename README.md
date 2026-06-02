@@ -1,43 +1,100 @@
-# Dev.to Weekend Challenge Analyzer
+# Dev.to ASSISTANT
 
-A multi-agent system powered by Gemma4 to scan, analyze, and summarize "Weekend Challenge" posts on Dev.to.
+Stay updated on what fellow developers are building without drowning in the feed.
 
-## Features
+Dev.to has a thriving community of 3.9+ million developers sharing tools, challenge entries, side projects, and experiments.
 
-- **Smart Scanning:** Fetches posts from Dev.to (default tag: `#weekendchallenge`) across multiple pages.
-- **AI Analysis:** Uses Google Gemini to extract key insights from each post:
-  - **Pain Point:** What problem is being solved?
-  - **Tech Stack:** Technologies mentioned across the post (Python, SQL, AWS, etc.).
-  - **Solution:** Brief technical summary.
-  - **GitHub URL:** Repository link if mentioned in the post.
-- **Interactive UI:** Gradio app for quick exploration and CSV exports.
-- **API Output for Frontend:** FastAPI endpoint (`/api/analyze`) used by the UI dashboard.
-- **Exportable Results:** Presents data in a clean, sortable table with downloadable CSV output.
+But manually opening post after post, reading long articles, and hunting for the tech stack or repository link takes hours.
+
+**Dev.to ASSISTANT** is a community intelligence tool powered by **Gemma 4** through the Google GenAI SDK.
+
+Pass any tag (`#notionchallenge`, `#gemmachallenge`, `#githubchallenge`, etc.), and the assistant reads, analyzes, and condenses dozens of posts into an interactive, skim-ready dashboard within seconds.
+
+---
+
+## Save Time in 60 Seconds
+
+| Manual Workflow                                | Dev.to ASSISTANT                                   |
+| ---------------------------------------------- | -------------------------------------------------- |
+| Open Dev.to and search a campaign hashtag      | Enter a tag in the dashboard                       |
+| Sift through dozens of long posts              | Click **Analyze**                                  |
+| Read full articles to find GitHub repositories | Instantly view structured summaries and repo links |
+| Manually compare projects and relevance        | View engagement metrics at a glance                |
+
+### Result
+
+**Manual:** Hours of reading and context switching
+
+**Assistant:** Faster discovery, inspiration, and analysis in seconds
+
+---
+
+## What You Get Per Post
+
+For every analyzed post, the assistant extracts:
+
+- Author
+- Original Title
+- Problem Statement
+- Proposed Solution
+- Tech Stack
+- GitHub Repository URL (if available)
+- Engagement Metrics (reactions and comments)
+- Original Dev.to Post URL
+
+---
 
 ## Tech Stack
 
+- **LLM:** Gemma 4 via Google GenAI SDK
 - **Backend:** FastAPI
-- **Frontend:** Gradio + Next.js (UI folder)
-- **AI:** Google GenAI SDK (Gemma4)
-- **Data:** Pandas
+- **Data Processing:** Pandas
+- **Frontend:** Next.js
 - **Dependency Management:** UV (`pyproject.toml` + `uv.lock`)
 
-## Setup
+---
 
-1.  Clone the repository.
-2.  Install dependencies with UV: `uv sync`
-3.  Set up `.env` with `GOOGLE_API_KEY`.
-4.  Run the app: `uv run python main.py`
+## Quick Start
 
-## API Response Fields (`/api/analyze`)
+### 1. Clone the Repository
 
-Each analyzed post includes:
+```bash
+git clone https://github.com/siddqamar/dev.to-assistant.git
+cd dev.to-assistant
+```
 
-- `author`
-- `topic`
-- `problem`
-- `solution`
-- `tech_stack`
-- `github_url`
-- `url` (Dev.to post URL)
-- engagement metadata (`reacts`, `comments`)
+### 2. Install Dependencies
+
+```bash
+uv sync
+```
+
+### 3. Configure Environment Variables
+
+```bash
+echo "GOOGLE_API_KEY=your_key_here" > .env
+```
+
+### 4. Start the Application
+
+```bash
+uv run python main.py
+```
+
+---
+
+## Why Developers Use This
+
+- Discover high-signal posts faster
+- Spot reusable ideas and micro-SaaS opportunities
+- Find repositories worth exploring or contributing to
+- Stay active in the developer community without spending hours reading every post
+- Track challenge submissions more efficiently
+
+---
+
+## Support the Project
+
+If this project helped you discover useful repositories, save time, or spark a new idea, consider giving it a star on GitHub.
+
+Your support helps the project grow and encourages future improvements.
