@@ -1,24 +1,107 @@
-# Dev.to Weekend Challenge Analyzer
+# Dev.to ASSISTANT
 
-A multi-agent system powered by Gemini to scan, analyze, and summarize "Weekend Challenge" posts on Dev.to.
+Stay updated on what fellow developers are building without drowning in the feed.
 
-## Features
-- **Smart Scanning:** Fetches posts from Dev.to (default tag: `#weekendchallenge`) across multiple pages.
-- **AI Analysis:** Uses Google Gemini to extract key insights from each post:
-    - **Pain Point:** What problem is being solved?
-    - **Hook:** What makes this post interesting?
-    - **Solution:** Brief technical summary.
-- **Interactive UI:** Built with Gradio for easy interaction and data visualization.
-- **Exportable Results:** Presents data in a clean, sortable table.
+Dev.to has a thriving community of 3.9+ million developers sharing open source projects, engineering lessons, tech trends, challenge entries, and more. But manually opening post after post, reading long articles, and hunting for the tech stack or repository link takes hours.
+
+**Dev.to ASSISTANT** is a community intelligence tool powered by **Gemma 4**. Pass any tag (`#notionchallenge`, `#gemmachallenge`, `#githubchallenge`, etc.), and the assistant reads, analyzes, and condenses dozens of posts into an interactive, skim-ready dashboard within seconds.
+
+## Demo
+
+![Dev.to ASSISTANT demo](media/animatoin.gif)
+
+---
+
+## Save Time in 60 Seconds
+
+| Manual Workflow                                | Dev.to ASSISTANT                                           |
+| ---------------------------------------------- | ---------------------------------------------------------- |
+| Open Dev.to and search a campaign hashtag      | Enter a tag in the dashboard                               |
+| Sift through dozens of long posts              | Click **Analyze**                                          |
+| Read full articles to find GitHub repositories | Instantly view structured summaries and repo links         |
+| Manually compare projects and relevance        | View engagement metrics at a glance                        |
+| **Hours of reading and context switching**     | **Faster discovery, inspiration, and analysis in seconds** |
+
+---
+
+## What You Get Per Post
+
+For every analyzed post, the assistant extracts:
+
+- Author
+- Original Title
+- Problem Statement
+- Proposed Solution
+- Tech Stack
+- GitHub Repository URL (if available)
+- Engagement Metrics (reactions and comments)
+- Original Dev.to Post URL
+
+---
 
 ## Tech Stack
-- **Backend:** FastAPI
-- **Frontend:** Gradio
-- **AI:** Google GenAI SDK (Gemini)
-- **Data:** Pandas
 
-## Setup
-1.  Clone the repository.
-2.  Install dependencies: `pip install -r requirements.txt`
-3.  Set up `.env` with `GOOGLE_API_KEY`.
-4.  Run the app: `python main.py`
+- **LLM:** Gemma 4 via Google GenAI SDK
+- **Backend:** FastAPI
+- **Data Processing:** Pandas
+- **Frontend:** Next.js
+- **Dependency Management:** UV (`pyproject.toml` + `uv.lock`)
+
+---
+
+## Quick Start
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/siddqamar/dev.to-assistant.git
+cd dev.to-assistant
+```
+
+### 2. Install Backend Dependencies
+
+```bash
+uv sync
+```
+
+### 3. Configure Environment Variables
+
+```bash
+echo "GOOGLE_API_KEY=your_key_here" > .env
+```
+
+### 4. Start the Backend Server
+
+```bash
+uv run python main.py
+```
+
+### 5. Start the Frontend Server
+
+Open a new terminal window, then run:
+
+```bash
+cd UI
+npm install
+npm run dev
+```
+
+The backend and frontend need to run at the same time.
+
+---
+
+## Why Developers Use This
+
+- Discover high-signal posts faster
+- Spot reusable ideas and micro-SaaS opportunities
+- Find repositories worth exploring or contributing to
+- Stay active in the developer community without spending hours reading every post
+- Track challenge submissions more efficiently
+
+---
+
+## Support the Project
+
+If this project helped you discover useful repositories, save time, or spark a new idea, consider giving it a star on GitHub.
+
+Your support helps the project grow and encourages future improvements.

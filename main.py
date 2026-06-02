@@ -2,6 +2,7 @@ import os
 import time
 import json
 import asyncio
+import re
 import requests
 import pandas as pd
 import gradio as gr
@@ -66,10 +67,50 @@ class DevToScanner:
             return ""
 
 class PostAnalyzer:
-    """Agent responsible for analyzing post content using Gemini."""
+    """Agent responsible for analyzing post content using Gemma4."""
     
-    def __init__(self, model_name: str = "gemini-3-flash-preview"):
+    def __init__(self, model_name: str = "gemma-4-26b-a4b-it"):
         self.model_name = model_name
+
+    @staticmethod
+    def _normalize_tech_stack(raw_value: Any) -> str:
+        """Normalizes tech stack into a clean, comma-separated string."""
+        if raw_value is None:
+            return "N/A"
+
+        if isinstance(raw_value, list):
+            candidates = [str(item).strip() for item in raw_value]
+        else:
+            text = str(raw_value).strip()
+            if not text or text.lower() in {"n/a", "none", "null"}:
+                return "N/A"
+            candidates = re.split(r"[,\n;/|]+", text)
+
+        cleaned = []
+        seen = set()
+        for item in candidates:
+            token = item.strip(" -•\t\r\n")
+            if not token:
+                continue
+            token = re.sub(r"\s+", " ", token)
+            key = token.lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            cleaned.append(token)
+
+        return ", ".join(cleaned) if cleaned else "N/A"
+
+    @staticmethod
+    def _extract_github_url_from_text(text: str) -> str:
+        """Extracts the first GitHub repository URL from text."""
+        if not text:
+            return "N/A"
+
+        match = re.search(r"https?://(?:www\.)?github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:/[^\s)\]}]*)?", text, re.IGNORECASE)
+        if not match:
+            return "N/A"
+        return match.group(0).rstrip(".,);]")
 
     def analyze_batch(self, posts: List[Dict]) -> List[Dict]:
         """Analyzes a batch of posts to extract insights."""
@@ -92,13 +133,15 @@ class PostAnalyzer:
         
         For EACH post, extract:
         1. Pain Point: What specific problem is the author solving?
-        2. Hook: What is the most compelling aspect of this post?
+        2. Tech Stack: A concise list of technologies explicitly mentioned in the post
+           (languages, frameworks, cloud/services, databases, tools). If none, return "N/A".
         3. Solution: A 1-sentence summary of their technical approach.
+        4. GitHub URL: If the post mentions a GitHub repository URL, return it. Otherwise "N/A".
         
         Return the result as a raw JSON list of objects. Do not use markdown formatting.
         Format:
         [
-            {"id": 123, "pain_point": "...", "hook": "...", "solution": "..."},
+            {"id": 123, "pain_point": "...", "tech_stack": "...", "solution": "...", "github_url": "..."},
             ...
         ]
         
@@ -113,12 +156,49 @@ class PostAnalyzer:
                     response_mime_type="application/json"
                 )
             )
-            
-            return json.loads(response.text)
+            parsed = json.loads(response.text)
+
+            # Post-process analysis output for consistency and reliable GitHub URL extraction.
+            post_map = {p["id"]: p for p in posts}
+            normalized = []
+            for item in parsed:
+                if "id" not in item:
+                    continue
+                source_post = post_map.get(item["id"], {})
+                source_text = "\n".join(
+                    [
+                        source_post.get("title", ""),
+                        source_post.get("url", ""),
+                        source_post.get("body_markdown", source_post.get("description", "")),
+                    ]
+                )
+                github_from_post = self._extract_github_url_from_text(source_text)
+                github_from_model = str(item.get("github_url", "N/A")).strip() or "N/A"
+
+                normalized.append(
+                    {
+                        "id": item["id"],
+                        "pain_point": item.get("pain_point", "N/A"),
+                        "tech_stack": self._normalize_tech_stack(item.get("tech_stack", "N/A")),
+                        "solution": item.get("solution", "N/A"),
+                        "github_url": github_from_model if github_from_model.upper() != "N/A" else github_from_post,
+                    }
+                )
+
+            return normalized
         except Exception as e:
             print(f"Error analyzing batch: {e}")
             # Return empty structure on failure to keep alignment
-            return [{"id": p['id'], "pain_point": "Error", "hook": "Error", "solution": "Error"} for p in posts]
+            return [
+                {
+                    "id": p['id'],
+                    "pain_point": "Error",
+                    "tech_stack": "Error",
+                    "solution": "Error",
+                    "github_url": "Error"
+                }
+                for p in posts
+            ]
 
 class ResultCompiler:
     """Agent responsible for compiling and formatting results."""
@@ -138,8 +218,9 @@ class ResultCompiler:
                 "Reactions": post['public_reactions_count'],
                 "Comments": post['comments_count'],
                 "Pain Point": analysis.get("pain_point", "N/A"),
-                "Hook": analysis.get("hook", "N/A"),
+                "Tech Stack": analysis.get("tech_stack", "N/A"),
                 "Solution": analysis.get("solution", "N/A"),
+                "GitHub URL": analysis.get("github_url", "N/A"),
                 "URL": post['url'],
                 "Published": post['published_at'].split("T")[0]
             })
@@ -294,9 +375,10 @@ async def analyze_endpoint(tag: str = "python", pages: int = 3):
             "avatar": post['user']['profile_image_90'],
             "date": post['published_at'].split("T")[0],
             "topic": post['title'],
-            "hook": analysis.get("hook", "N/A"),
+            "tech_stack": analysis.get("tech_stack", "N/A"),
             "problem": analysis.get("pain_point", "N/A"),
             "solution": analysis.get("solution", "N/A"),
+            "github_url": analysis.get("github_url", "N/A"),
             "reacts": post['public_reactions_count'],
             "comments": post['comments_count'],
             "url": post['url']

@@ -16,13 +16,16 @@ export function ResultsTable({ data }: ResultsTableProps) {
                 Author &amp; Post
               </th>
               <th className="p-4 border-b border-[var(--table-border)] text-[11px] font-semibold uppercase tracking-[0.05em] text-muted-foreground bg-card sticky top-0 z-10">
-                Extracted Hook
+                Tech Stack
               </th>
               <th className="p-4 border-b border-[var(--table-border)] text-[11px] font-semibold uppercase tracking-[0.05em] text-muted-foreground bg-card sticky top-0 z-10">
                 Problem Statement
               </th>
               <th className="p-4 border-b border-[var(--table-border)] text-[11px] font-semibold uppercase tracking-[0.05em] text-muted-foreground bg-card sticky top-0 z-10">
                 Proposed Solution
+              </th>
+              <th className="p-4 border-b border-[var(--table-border)] text-[11px] font-semibold uppercase tracking-[0.05em] text-muted-foreground bg-card sticky top-0 z-10">
+                GitHub URL
               </th>
               <th className="p-4 border-b border-[var(--table-border)] text-[11px] font-semibold uppercase tracking-[0.05em] text-muted-foreground bg-card sticky top-0 z-10">
                 Engagement
@@ -42,13 +45,27 @@ export function ResultsTable({ data }: ResultsTableProps) {
                   <AuthorCell author={post.author} avatar={post.avatar} date={post.date} topic={post.topic} />
                 </td>
                 <td className="p-4 border-b border-[var(--table-border)] align-top min-w-[200px] max-w-[300px] text-foreground leading-[1.4]">
-                  {post.hook}
+                  {post.tech_stack}
                 </td>
                 <td className="p-4 border-b border-[var(--table-border)] align-top min-w-[200px] max-w-[300px] text-foreground leading-[1.4]">
                   {post.problem}
                 </td>
                 <td className="p-4 border-b border-[var(--table-border)] align-top min-w-[200px] max-w-[300px] text-foreground leading-[1.4]">
                   {post.solution}
+                </td>
+                <td className="p-4 border-b border-[var(--table-border)] align-top min-w-[180px] max-w-[260px]">
+                  {post.github_url !== "N/A" ? (
+                    <a
+                      href={post.github_url}
+                      className="text-[var(--accent-purple)] no-underline font-semibold text-[13px] hover:underline"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Repo
+                    </a>
+                  ) : (
+                    <span className="text-muted-foreground">N/A</span>
+                  )}
                 </td>
                 <td className="p-4 border-b border-[var(--table-border)] align-top">
                   <EngagementCell reacts={post.reacts} comments={post.comments} />
@@ -96,9 +113,9 @@ export function ResultsTable({ data }: ResultsTableProps) {
             <div className="flex flex-col gap-3 text-sm">
               <div>
                 <span className="text-[10px] font-semibold uppercase tracking-[0.05em] text-muted-foreground block mb-1">
-                  Hook
+                  Tech Stack
                 </span>
-                <p className="text-foreground leading-relaxed">{post.hook}</p>
+                <p className="text-foreground leading-relaxed">{post.tech_stack}</p>
               </div>
               <div>
                 <span className="text-[10px] font-semibold uppercase tracking-[0.05em] text-muted-foreground block mb-1">
@@ -111,6 +128,23 @@ export function ResultsTable({ data }: ResultsTableProps) {
                   Solution
                 </span>
                 <p className="text-foreground leading-relaxed">{post.solution}</p>
+              </div>
+              <div>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.05em] text-muted-foreground block mb-1">
+                  GitHub URL
+                </span>
+                {post.github_url !== "N/A" ? (
+                  <a
+                    href={post.github_url}
+                    className="text-[var(--accent-purple)] no-underline font-semibold text-sm hover:underline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {post.github_url}
+                  </a>
+                ) : (
+                  <p className="text-muted-foreground leading-relaxed">N/A</p>
+                )}
               </div>
             </div>
 
