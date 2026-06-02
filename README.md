@@ -2,30 +2,27 @@
 
 Stay updated on what fellow developers are building without drowning in the feed.
 
-Dev.to has a thriving community of 3.9+ million developers sharing tools, challenge entries, side projects, and experiments.
+Dev.to has a thriving community of 3.9+ million developers sharing tools, challenge entries, side projects, and experiments. But manually opening post after post, reading long articles, and hunting for the tech stack or repository link takes hours.
 
-But manually opening post after post, reading long articles, and hunting for the tech stack or repository link takes hours.
+**Dev.to ASSISTANT** is a community intelligence tool powered by **Gemma 4**. Pass any tag (`#notionchallenge`, `#gemmachallenge`, `#githubchallenge`, etc.), and the assistant reads, analyzes, and condenses dozens of posts into an interactive, skim-ready dashboard within seconds.
 
-**Dev.to ASSISTANT** is a community intelligence tool powered by **Gemma 4** through the Google GenAI SDK.
+## Demo
 
-Pass any tag (`#notionchallenge`, `#gemmachallenge`, `#githubchallenge`, etc.), and the assistant reads, analyzes, and condenses dozens of posts into an interactive, skim-ready dashboard within seconds.
+<p align="center">
+  <img src="./media/animation.gif" alt="Dev.to ASSISTANT demo" width="100%">
+</p>
 
 ---
 
 ## Save Time in 60 Seconds
 
-| Manual Workflow                                | Dev.to ASSISTANT                                   |
-| ---------------------------------------------- | -------------------------------------------------- |
-| Open Dev.to and search a campaign hashtag      | Enter a tag in the dashboard                       |
-| Sift through dozens of long posts              | Click **Analyze**                                  |
-| Read full articles to find GitHub repositories | Instantly view structured summaries and repo links |
-| Manually compare projects and relevance        | View engagement metrics at a glance                |
-
-### Result
-
-**Manual:** Hours of reading and context switching
-
-**Assistant:** Faster discovery, inspiration, and analysis in seconds
+| Manual Workflow                                | Dev.to ASSISTANT                                           |
+| ---------------------------------------------- | ---------------------------------------------------------- |
+| Open Dev.to and search a campaign hashtag      | Enter a tag in the dashboard                               |
+| Sift through dozens of long posts              | Click **Analyze**                                          |
+| Read full articles to find GitHub repositories | Instantly view structured summaries and repo links         |
+| Manually compare projects and relevance        | View engagement metrics at a glance                        |
+| **Hours of reading and context switching**     | **Faster discovery, inspiration, and analysis in seconds** |
 
 ---
 
@@ -63,7 +60,7 @@ git clone https://github.com/siddqamar/dev.to-assistant.git
 cd dev.to-assistant
 ```
 
-### 2. Install Dependencies
+### 2. Install Backend Dependencies
 
 ```bash
 uv sync
@@ -75,11 +72,23 @@ uv sync
 echo "GOOGLE_API_KEY=your_key_here" > .env
 ```
 
-### 4. Start the Application
+### 4. Start the Backend Server
 
 ```bash
 uv run python main.py
 ```
+
+### 5. Start the Frontend Server
+
+Open a new terminal window, then run:
+
+```bash
+cd UI
+npm install
+npm run dev
+```
+
+The backend and frontend need to run at the same time.
 
 ---
 
