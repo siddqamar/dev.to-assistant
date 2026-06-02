@@ -67,9 +67,9 @@ class DevToScanner:
             return ""
 
 class PostAnalyzer:
-    """Agent responsible for analyzing post content using Gemini."""
+    """Agent responsible for analyzing post content using Gemma4."""
     
-    def __init__(self, model_name: str = "gemini-3-flash-preview"):
+    def __init__(self, model_name: str = "gemma-4-26b-a4b-it"):
         self.model_name = model_name
 
     @staticmethod
