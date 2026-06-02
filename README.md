@@ -8,9 +8,7 @@ Dev.to has a thriving community of 3.9+ million developers sharing tools, challe
 
 ## Demo
 
-<p align="center">
-  <img src="./media/animation.gif" alt="Dev.to ASSISTANT demo" width="100%">
-</p>
+![Dev.to ASSISTANT demo](media/animation.gif)
 
 ---
 
