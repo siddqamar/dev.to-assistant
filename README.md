@@ -2,13 +2,13 @@
 
 Stay updated on what fellow developers are building without drowning in the feed.
 
-Dev.to has a thriving community of 3.9+ million developers sharing tools, challenge entries, side projects, and experiments. But manually opening post after post, reading long articles, and hunting for the tech stack or repository link takes hours.
+Dev.to has a thriving community of 3.9+ million developers sharing open source projects, engineering lessons, tech trends, challenge entries, and more. But manually opening post after post, reading long articles, and hunting for the tech stack or repository link takes hours.
 
 **Dev.to ASSISTANT** is a community intelligence tool powered by **Gemma 4**. Pass any tag (`#notionchallenge`, `#gemmachallenge`, `#githubchallenge`, etc.), and the assistant reads, analyzes, and condenses dozens of posts into an interactive, skim-ready dashboard within seconds.
 
 ## Demo
 
-![Dev.to ASSISTANT demo](media/animation.gif)
+![Dev.to ASSISTANT demo](media/animatoin.gif)
 
 ---
 
