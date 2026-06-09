@@ -42,10 +42,43 @@ For every analyzed post, the assistant extracts:
 ## Tech Stack
 
 - **LLM:** Gemma 4 via Google GenAI SDK
-- **Backend:** FastAPI
+- **Backend:** FastAPI (modular Python package under `backend/`)
 - **Data Processing:** Pandas
-- **Frontend:** Next.js
+- **Frontend:** Next.js (under `frontend/`)
 - **Dependency Management:** UV (`pyproject.toml` + `uv.lock`)
+
+---
+
+## Project Structure
+
+```
+dev.to-assistant/
+├── backend/                  # Python — FastAPI + Gradio + Gemini
+│   ├── pyproject.toml
+│   ├── uv.lock
+│   └── src/
+│       ├── main.py           # App entrypoint
+│       ├── config.py          # Env vars, constants, Gemini client
+│       ├── models/schemas.py  # Pydantic schemas
+│       ├── services/
+│       │   ├── scanner.py     # DevToScanner agent
+│       │   ├── analyzer.py    # PostAnalyzer agent (Gemini)
+│       │   └── compiler.py    # ResultCompiler agent
+│       ├── api/routes.py      # FastAPI router
+│       └── gradio_ui/app.py   # Gradio Blocks UI
+├── frontend/                  # Next.js — interactive dashboard
+│   ├── app/
+│   ├── components/
+│   ├── hooks/
+│   ├── styles/
+│   └── public/
+├── media/                     # Demo GIFs and screenshots
+├── .gitignore
+├── GEMINI.md
+├── CONTRIBUTING.md
+├── LICENSE
+└── README.md
+```
 
 ---
 
@@ -61,6 +94,7 @@ cd dev.to-assistant
 ### 2. Install Backend Dependencies
 
 ```bash
+cd backend
 uv sync
 ```
 
@@ -73,7 +107,7 @@ echo "GOOGLE_API_KEY=your_key_here" > .env
 ### 4. Start the Backend Server
 
 ```bash
-uv run python main.py
+uv run python -m src.main
 ```
 
 ### 5. Start the Frontend Server
@@ -81,7 +115,7 @@ uv run python main.py
 Open a new terminal window, then run:
 
 ```bash
-cd UI
+cd frontend
 npm install
 npm run dev
 ```
