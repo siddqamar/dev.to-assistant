@@ -38,8 +38,8 @@ const sampleData = [
     author: "Maria Tech",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria",
     date: "Oct 21",
-    topic: "Gemini API",
-    hook: "\"Integrating Gemini 3 into legacy codebases doesn't have to be a nightmare.\"",
+    topic: "Gemma 4 API",
+    hook: "\"Integrating Gemma 4 into legacy codebases doesn't have to be a nightmare.\"",
     problem: "Handling rate limits and parsing unstructured JSON responses from LLM endpoints.",
     solution: "Building a resilient adapter pattern with exponential backoff and Pydantic validation.",
     reacts: 890,
@@ -107,7 +107,7 @@ export default function DevToAnalyzer() {
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <div className="w-12 h-12 border-4 border-[var(--accent-green)] border-t-transparent rounded-full animate-spin"></div>
             <p className="text-muted-foreground animate-pulse text-lg font-medium">
-              Gemini is analyzing posts for #{tag}...
+              Gemma 4 is analyzing posts for #{tag}...
             </p>
           </div>
         ) : (
