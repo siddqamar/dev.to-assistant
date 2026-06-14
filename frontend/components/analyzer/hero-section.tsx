@@ -1,6 +1,6 @@
 "use client"
 
-import { TrendingUp, Users, Zap, ArrowRight } from "lucide-react"
+import { TrendingUp, Users, Zap } from "lucide-react"
 
 const features = [
   {
@@ -47,9 +47,9 @@ export function HeroSection() {
         <div className="hidden sm:block w-px h-3 bg-border" />
         <StatChip value="Any tag" label="full coverage" dot="#00E5FF" />
         <div className="hidden sm:block w-px h-3 bg-border" />
-        <StatChip value="~3s" label="analysis time" dot="#7C5CFC" />
+        <StatChip value="~30s" label="analysis time" dot="#7C5CFC" />
         <div className="hidden sm:block w-px h-3 bg-border" />
-        <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/60">Powered by Gemini AI</span>
+        <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/60">Powered by Gemma 4</span>
       </div>
     </section>
   )
@@ -123,15 +123,6 @@ function FeatureCard({
         <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{description}</p>
       </div>
 
-      {/* Arrow that slides in on hover */}
-      <div
-        className="absolute bottom-5 right-5 flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider
-          opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0
-          transition-all duration-300"
-        style={{ color: accent }}
-      >
-        Explore <ArrowRight className="w-3 h-3" />
-      </div>
     </div>
   )
 }

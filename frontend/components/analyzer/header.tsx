@@ -12,7 +12,7 @@ export function AnalyzerHeader() {
       {/* Eyebrow label */}
       <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#35256A]/20 bg-[#35256A]/5 text-[#35256A] text-xs font-semibold tracking-wider uppercase">
         <span className="w-1.5 h-1.5 rounded-full bg-[#00F08B]" />
-        AI-Powered Dev.to Scanner
+        Dev.to ASSISTANT
       </div>
 
       {/* Main headline */}
@@ -65,8 +65,8 @@ export function AnalyzerHeader() {
       </h1>
 
       {/* Subheading */}
-      <p className="mt-6 max-w-xl text-sm sm:text-base text-muted-foreground leading-relaxed text-balance">
-        Track trends, surface insights, and stay ahead of the dev community — without scrolling for hours.
+      <p className="mt-6 mx-auto max-w-3xl lg:max-w-4xl text-sm sm:text-base md:text-lg text-muted-foreground leading-snug text-pretty">
+        Skip the noise. Analyze dozens of Dev.to posts from any tag and get a skim-friendly dashboard that helps you find the most valuable content in seconds.
       </p>
     </header>
   )
