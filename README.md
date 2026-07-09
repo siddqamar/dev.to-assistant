@@ -124,6 +124,28 @@ The backend and frontend need to run at the same time.
 
 ---
 
+## Running Tests
+
+Backend:
+
+```bash
+cd backend
+uv sync --group dev
+uv run pytest
+```
+
+Frontend:
+
+```bash
+cd frontend
+npm install
+npm run test
+```
+
+GitHub Actions runs these checks automatically on pushes to `main` and on pull requests that target `main`.
+
+---
+
 ## Why Developers Use This
 
 - Discover high-signal posts faster
